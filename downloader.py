@@ -42,13 +42,14 @@ def get_urls_and_names():
         return
 
 
-# targetUrl = input('Paste URL to Yandex.Disk folder:\n')
-# number_of_files = input('Paste number of files in the folder (default = 10):\n')
-# destination_folder = input('Paste destination folder on your computer:\n')
+if __name__ == '__main__':
+    # targetUrl = input('Paste URL to Yandex.Disk folder:\n')
+    # number_of_files = input('Paste number of files in the folder (default = 10):\n')
+    # destination_folder = input('Paste destination folder on your computer:\n')
 
-URLs, names = get_urls_and_names()
-logging.info('Download has started')
-print('Download has started')
-download(URLs, names)
-logging.info('Download has finished')
-print('Download has finished')
+    URLs, names = get_urls_and_names()
+    logging.info('Download has started')
+    print('Download has started')
+    download(URLs, names)
+    logging.info('Download has finished')
+    print('Download has finished')
