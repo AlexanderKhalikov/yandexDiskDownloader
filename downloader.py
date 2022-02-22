@@ -54,12 +54,10 @@ class YandexDiskDownloader:
 
 if __name__ == '__main__':
 
-    downloader = YandexDiskDownloader()
-
-    URLs, names = downloader.get_urls_and_names()
+    URLs, names = YandexDiskDownloader.get_urls_and_names()
     logging.info('Download has started')
     print('Download has started')
 
-    downloader.download(URLs, names)
+    YandexDiskDownloader.download(URLs, names)
     logging.info('Download has finished')
     print('Download has finished')
