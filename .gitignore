@@ -9,3 +9,8 @@
 
 # thumbnail cache on Windows
 Thumbs.db
+
+# Configuration file
+configTest.yaml
+testDestination
+venv

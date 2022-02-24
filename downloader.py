@@ -3,11 +3,15 @@ import logging
 import urllib
 import requests
 from urllib.parse import urlencode
+import yaml
 
-# CONSTS
-targetUrl = ''  # To be defined
-destination_folder = ''  # To be defined
-number_of_files = 10  # To be defined
+
+with open('configTest.yaml') as f:
+    config = yaml.load(f, Loader=yaml.FullLoader)
+
+targetUrl = config['targetUrl']
+destination_folder = config['destination_folder']
+number_of_files = config['number_of_files']
 
 folder_url = 'https://yadi.sk/d' + targetUrl[targetUrl.rfind('/'):]
 publicUrl = 'https://cloud-api.yandex.net/v1/disk/public/resources'
@@ -54,10 +58,14 @@ class YandexDiskDownloader:
 
 if __name__ == '__main__':
 
-    URLs, names = YandexDiskDownloader.get_urls_and_names()
-    logging.info('Download has started')
-    print('Download has started')
+    print(targetUrl)
+    print(number_of_files)
+    print(destination_folder)
 
-    YandexDiskDownloader.download(URLs, names)
-    logging.info('Download has finished')
-    print('Download has finished')
+    # URLs, names = YandexDiskDownloader.get_urls_and_names()
+    # logging.info('Download has started')
+    # print('Download has started')
+    #
+    # YandexDiskDownloader.download(URLs, names)
+    # logging.info('Download has finished')
+    # print('Download has finished')
