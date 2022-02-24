@@ -11,6 +11,6 @@
 Thumbs.db
 
 # Configuration file
-configTest.yaml
+config/configTest.yaml
 testDestination
 venv

@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 import yaml
 
 
-with open('configTest.yaml') as f:
+with open('config/configTest.yaml') as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
 
 targetUrl = config['targetUrl']
