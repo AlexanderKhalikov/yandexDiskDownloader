@@ -102,16 +102,6 @@ async def main(urls, file_names):
                 await task
                 bar.update(bar_task, advance=1)
 
-    # async with aiohttp.ClientSession() as session:
-    #     tasks = [
-    #         asyncio.ensure_future(
-    #             YandexDiskDownloader.download_file(session, url, file_name)
-    #         )
-    #         for url, file_name in zip(urls, file_names)
-    #     ]
-    #
-    #     await asyncio.gather(*tasks)
-
     logging.info('Download has finished')
     print('Download has finished')
 
