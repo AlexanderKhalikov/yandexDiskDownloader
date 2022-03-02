@@ -42,7 +42,13 @@ class YandexDiskDownloader:
                 print(f'Download failed with URL - {url}, file name - {file_name}')
 
     @staticmethod
-    def get_urls_and_names():
+    async def get_download_url(session, url):
+        async with session.get(url, ssl=False) as response:
+            extracted_url = await response.json()
+            return extracted_url['href']
+
+    @staticmethod
+    async def get_urls_and_names():
         response = requests.get(
             url=publicUrl + '?public_key='
             + urllib.parse.quote(folder_url)
@@ -59,8 +65,19 @@ class YandexDiskDownloader:
 
             urls = list(prefix + urllib.parse.quote(file_name) for file_name in file_names)
 
-            # This probably can be done asynchronously
-            download_urls = list(json.loads(requests.get(url).text)['href'] for url in urls)
+            async with aiohttp.ClientSession() as session:
+                tasks = [
+                    YandexDiskDownloader.get_download_url(session, url)
+                    for url in urls
+                ]
+
+                download_urls = []
+                with Progress() as bar:
+                    logging.info('Gathering filenames')
+                    bar_task = bar.add_task('Gathering filenames...', total=len(tasks))
+                    for task in asyncio.as_completed(tasks):
+                        download_urls.append(await task)
+                        bar.update(bar_task, advance=1)
 
             return download_urls, file_names
         else:
@@ -69,6 +86,9 @@ class YandexDiskDownloader:
 
 
 async def main(urls, file_names):
+    logging.info('Download has started')
+    print('Download has started')
+
     # Add Progress Bar to be fancy
     async with aiohttp.ClientSession() as session:
         tasks = [
@@ -92,17 +112,11 @@ async def main(urls, file_names):
     #
     #     await asyncio.gather(*tasks)
 
+    logging.info('Download has finished')
+    print('Download has finished')
+
 
 if __name__ == '__main__':
 
-    logging.info('Gathering filenames')
-    print('Gathering filenames')
-    URLs, names = YandexDiskDownloader.get_urls_and_names()
-
-    logging.info('Download has started')
-    print('Download has started')
-
+    URLs, names = asyncio.run(YandexDiskDownloader.get_urls_and_names())
     asyncio.run(main(URLs, names))
-
-    logging.info('Download has finished')
-    print('Download has finished')
