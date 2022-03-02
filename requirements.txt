@@ -1,2 +1,4 @@
-requests~=2.27.1
+requests==2.27.1
 PyYaml
+aiohttp==3.7.3
+rich
